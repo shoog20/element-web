@@ -9,7 +9,7 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref_name }}
 
 permissions:
-  id-token: write # needed for signing the images with GitHub OIDC Token
+    id-token: write # needed for signing the images with GitHub OIDC Token
 jobs:
     buildx:
         name: Docker Buildx
@@ -75,14 +75,14 @@ jobs:
 
             - name: Sign the images with GitHub OIDC Token
               env:
-                DIGEST: ${{ steps.build-and-push.outputs.digest }}
-                TAGS: ${{ steps.meta.outputs.tags }}
+                  DIGEST: ${{ steps.build-and-push.outputs.digest }}
+                  TAGS: ${{ steps.meta.outputs.tags }}
               run: |
-                images=""
-                for tag in ${TAGS}; do
-                  images+="${tag}@${DIGEST} "
-                done
-                cosign sign --yes ${images}
+                  images=""
+                  for tag in ${TAGS}; do
+                    images+="${tag}@${DIGEST} "
+                  done
+                  cosign sign --yes ${images}
 
             - name: Update repo description
               if: matrix.variant == 'vanilla'
